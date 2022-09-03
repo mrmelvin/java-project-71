@@ -1,14 +1,6 @@
 package hexlet.code;
 
 import java.util.Map;
-import java.util.LinkedHashMap;
-import java.util.Set;
-import java.util.TreeSet;
-import java.io.IOException;
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import java.util.concurrent.Callable;
 
