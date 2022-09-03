@@ -7,4 +7,10 @@ test:
 build:
 	./gradlew clean build
 
+report:
+	./gradlew jacocoTestReport
+
+lint:
+	./gradlew checkstyleMain checkstyleTest
+
 .PHONY: build
