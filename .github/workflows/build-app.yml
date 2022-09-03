@@ -20,4 +20,4 @@ jobs:
           JACOCO_SOURCE_PATH: ${{github.workspace}}/src/main/java
         with:
           coverageCommand: make report
-          coverageLocation: ${{github.workspace}}/build/customJacocoReportDir/test/jacocoTestReport.xml:jacoco
+          coverageLocations: ${{github.workspace}}/build/customJacocoReportDir/test/jacocoTestReport.xml:jacoco
