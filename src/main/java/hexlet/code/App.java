@@ -35,7 +35,7 @@ public class App implements Callable<Integer> {
         for (var elem: inputData.entrySet()) {
             output.append(elem.getKey());
             output.append(": ");
-            output.append(elem.getValue());
+            output.append(elem.getValue().toString());
             output.append("\n");
         }
         output.append("}");

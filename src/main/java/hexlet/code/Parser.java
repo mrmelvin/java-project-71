@@ -15,9 +15,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 public class Parser {
-    public static final String IDENTIFICATOR_SAME_DATA = "    ";
-    public static final String IDENTIFICATOR_DELETE_DATA = "  - ";
-    public static final String IDENTIFICATOR_ADD_DATA = "  + ";
+    public static final String PREFIX_EQUAL_DATA = "    ";
+    public static final String PREFIX_DELETE_DATA = "  - ";
+    public static final String PREFIX_ADD_DATA = "  + ";
 
 
     public static Map<String, Object> parse(String firstPath, String secondPath) throws IOException {
@@ -61,15 +61,15 @@ public class Parser {
                 if (mapBasicFile.containsKey(elem) & mapChangedFile.containsKey(elem)) {
                     if (mapBasicFile.getOrDefault(elem, "key is null")
                             .equals(mapChangedFile.getOrDefault(elem, "key is null"))) {
-                        result.put(IDENTIFICATOR_SAME_DATA + elem, mapBasicFile.getOrDefault(elem, null));
+                        result.put(PREFIX_EQUAL_DATA + elem, mapBasicFile.getOrDefault(elem, "key is null"));
                     } else {
-                        result.put(IDENTIFICATOR_DELETE_DATA + elem, mapBasicFile.get(elem));
-                        result.put(IDENTIFICATOR_ADD_DATA + elem, mapChangedFile.get(elem));
+                        result.put(PREFIX_DELETE_DATA + elem, mapBasicFile.get(elem));
+                        result.put(PREFIX_ADD_DATA + elem, mapChangedFile.get(elem));
                     }
                 } else if (mapChangedFile.containsKey(elem) & !mapBasicFile.containsKey(elem)) {
-                    result.put(IDENTIFICATOR_ADD_DATA + elem, mapChangedFile.get(elem));
+                    result.put(PREFIX_ADD_DATA + elem, mapChangedFile.get(elem));
                 } else {
-                    result.put(IDENTIFICATOR_DELETE_DATA + elem, mapBasicFile.get(elem));
+                    result.put(PREFIX_DELETE_DATA + elem, mapBasicFile.get(elem));
                 }
             }
         }
@@ -98,15 +98,15 @@ public class Parser {
                 if (mapBasicFile.containsKey(elem) & mapChangedFile.containsKey(elem)) {
                     if (mapBasicFile.getOrDefault(elem, "key is null")
                             .equals(mapChangedFile.getOrDefault(elem, "key is null"))) {
-                        result.put(IDENTIFICATOR_SAME_DATA + elem, mapBasicFile.getOrDefault(elem, null));
+                        result.put(PREFIX_EQUAL_DATA + elem, mapBasicFile.getOrDefault(elem, null));
                     } else {
-                        result.put(IDENTIFICATOR_DELETE_DATA + elem, mapBasicFile.get(elem));
-                        result.put(IDENTIFICATOR_ADD_DATA + elem, mapChangedFile.get(elem));
+                        result.put(PREFIX_DELETE_DATA + elem, mapBasicFile.get(elem));
+                        result.put(PREFIX_ADD_DATA + elem, mapChangedFile.get(elem));
                     }
                 } else if (mapChangedFile.containsKey(elem) & !mapBasicFile.containsKey(elem)) {
-                    result.put(IDENTIFICATOR_ADD_DATA + elem, mapChangedFile.get(elem));
+                    result.put(PREFIX_ADD_DATA + elem, mapChangedFile.get(elem));
                 } else {
-                    result.put(IDENTIFICATOR_DELETE_DATA + elem, mapBasicFile.get(elem));
+                    result.put(PREFIX_DELETE_DATA + elem, mapBasicFile.get(elem));
                 }
             }
         }
