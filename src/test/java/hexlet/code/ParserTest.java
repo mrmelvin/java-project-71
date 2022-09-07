@@ -12,65 +12,65 @@ public class ParserTest {
     @Test
     public void testNestedFilesJSON() throws Exception {
         String expectedNestedFilesJSON = "{\n"
-                + "  + chars1: [a, b, c]"
-                + "  - chars2: [d, e, f]"
-                + "  + chars2: false"
-                + "  - checked: false"
-                + "  + checked: true"
-//                + "  - default: null"
-//                + "  + default: [value1, value2]"
-//                + "  - id: 45"
-//                + "  + id: null"
-                + "  - key1: value1"
-                + "  + key2: value2"
-                + "  numbers1: [1, 2, 3, 4]"
-                + "  - numbers2: [2, 3, 4, 5]"
-                + "  + numbers2: [22, 33, 44, 55]"
-                + "  - numbers3: [3, 4, 5]"
-                + "  + numbers4: [4, 5, 6]"
-                + "  + obj1: {nestedKey=value, isNested=true}"
-                + "  - setting1: Some value"
-                + "  + setting1: Another value"
-                + "  - setting2: 200"
-                + "  + setting2: 300"
-                + "  - setting3: true"
+                + "    chars1: [a, b, c]\n"
+                + "  - chars2: [d, e, f]\n"
+                + "  + chars2: false\n"
+                + "  - checked: false\n"
+                + "  + checked: true\n"
+                + "  - default: null\n"
+                + "  + default: [value1, value2]\n"
+                + "  - id: 45\n"
+                + "  + id: null\n"
+                + "  - key1: value1\n"
+                + "  + key2: value2\n"
+                + "    numbers1: [1, 2, 3, 4]\n"
+                + "  - numbers2: [2, 3, 4, 5]\n"
+                + "  + numbers2: [22, 33, 44, 55]\n"
+                + "  - numbers3: [3, 4, 5]\n"
+                + "  + numbers4: [4, 5, 6]\n"
+                + "  + obj1: {nestedKey=value, isNested=true}\n"
+                + "  - setting1: Some value\n"
+                + "  + setting1: Another value\n"
+                + "  - setting2: 200\n"
+                + "  + setting2: 300\n"
+                + "  - setting3: true\n"
                 + "  + setting3: none"
                 + "\n}";
-        var actual = Parser.parse("src/test/resources/nestedFile1.json",
+        var actualNestedFilesJSON = Parser.parse("src/test/resources/nestedFile1.json",
                 "src/test/resources/nestedFile2.json");
-        assertEquals(expectedNestedFilesJSON, actual);
+        assertEquals(expectedNestedFilesJSON, App.getData(actualNestedFilesJSON));
     }
 
     @Test
     public void testNestedFilesYAML() throws Exception {
-        String expectedNestedFilesJSON = "{\n"
-                + "  + chars1: [a, b, c]"
-                + "  - chars2: [d, e, f]"
-                + "  + chars2: false"
-                + "  - checked: false"
-                + "  + checked: true"
-                //+ "  - default: null"
-                //+ "  + default: [value1, value2]"
-                //+ "  - id: 45"
-                //+ "  + id: null"
-                + "  - key1: value1"
-                + "  + key2: value2"
-                + "  numbers1: [1, 2, 3, 4]"
-                + "  - numbers2: [2, 3, 4, 5]"
-                + "  + numbers2: [22, 33, 44, 55]"
-                + "  - numbers3: [3, 4, 5]"
-                + "  + numbers4: [4, 5, 6]"
-                + "  + obj1: {nestedKey=value, isNested=true}"
-                + "  - setting1: Some value"
-                + "  + setting1: Another value"
-                + "  - setting2: 200"
-                + "  + setting2: 300"
-                + "  - setting3: true"
+        String expectedNestedFilesYAML = "{\n"
+                + "    chars1: [a, b, c]\n"
+                + "  - chars2: [d, e, f]\n"
+                + "  + chars2: false\n"
+                + "  - checked: false\n"
+                + "  + checked: true\n"
+                + "  - default: null\n"
+                + "  + default: [value1, value2]\n"
+                + "  - id: 45\n"
+                + "  + id: null\n"
+                + "  - key1: value1\n"
+                + "  + key2: value2\n"
+                + "    numbers1: [1, 2, 3, 4]\n"
+                + "  - numbers2: [2, 3, 4, 5]\n"
+                + "  + numbers2: [22, 33, 44, 55]\n"
+                + "  - numbers3: [3, 4, 5]\n"
+                + "  + numbers4: [4, 5, 6]\n"
+                + "  + obj1: {nestedKey=value, isNested=true}\n"
+                + "  - setting1: Some value\n"
+                + "  + setting1: Another value\n"
+                + "  - setting2: 200\n"
+                + "  + setting2: 300\n"
+                + "  - setting3: true\n"
                 + "  + setting3: none"
                 + "\n}";
-        var actual = Parser.parse("src/test/resources/nestedFile1.yaml",
+        var actualNestedFilesYAML = Parser.parse("src/test/resources/nestedFile1.yaml",
                 "src/test/resources/nestedFile2.yaml");
-        assertEquals(expectedNestedFilesJSON, actual);
+        assertEquals(expectedNestedFilesYAML, App.getData(actualNestedFilesYAML));
     }
     @Test
     public void testTwoIdenticalFilesJSON() throws Exception {
@@ -80,9 +80,9 @@ public class ParserTest {
                 + "    currency: euro"
                 + "\n}";
 
-        var actual = Parser.parse("src/test/resources/testTwoIdenticalFile1.json",
-                "src/test/resources/testTwoIdenticalFile2.json");
-        assertEquals(expectedTwoIdenticalFiles, App.getData(actual));
+        var actualTwoIdenticalFilesJSON = Parser.parse("src/test/resources/twoIdenticalFile1.json",
+                "src/test/resources/twoIdenticalFile2.json");
+        assertEquals(expectedTwoIdenticalFiles, App.getData(actualTwoIdenticalFilesJSON));
 
     }
 
@@ -94,9 +94,9 @@ public class ParserTest {
                 + "    currency: euro"
                 + "\n}";
 
-        var actual = Parser.parse("src/test/resources/testTwoIdenticalFile1.yaml",
-                "src/test/resources/testTwoIdenticalFile2.yaml");
-        assertEquals(expectedTwoIdenticalFiles, App.getData(actual));
+        var actualTwoIdenticalFilesYAML = Parser.parse("src/test/resources/twoIdenticalFile1.yaml",
+                "src/test/resources/twoIdenticalFile2.yaml");
+        assertEquals(expectedTwoIdenticalFiles, App.getData(actualTwoIdenticalFilesYAML));
 
     }
 
@@ -113,9 +113,9 @@ public class ParserTest {
                 + "  - online: true\n"
                 + "  + online: false"
                 + "\n}";
-        var actual = Parser.parse("src/test/resources/fileWithSameKeys1.json",
+        var actualTwoDifferentFilesWithSameKeysJSON = Parser.parse("src/test/resources/fileWithSameKeys1.json",
                 "src/test/resources/fileWithSameKeys2.json");
-        assertEquals(expectedTwoDifferentFilesWithSameKeys, App.getData(actual));
+        assertEquals(expectedTwoDifferentFilesWithSameKeys, App.getData(actualTwoDifferentFilesWithSameKeysJSON));
     }
 
     @Test
@@ -130,9 +130,9 @@ public class ParserTest {
                 + "  - online: true\n"
                 + "  + online: false"
                 + "\n}";
-        var actual = Parser.parse("src/test/resources/fileWithSameKeys1.yaml",
+        var actualTwoDifferentFilesWithSameKeysYAML = Parser.parse("src/test/resources/fileWithSameKeys1.yaml",
                 "src/test/resources/fileWithSameKeys2.yaml");
-        assertEquals(expectedTwoDifferentFilesWithSameKeys, App.getData(actual));
+        assertEquals(expectedTwoDifferentFilesWithSameKeys, App.getData(actualTwoDifferentFilesWithSameKeysYAML));
     }
 
     @Test
@@ -147,9 +147,9 @@ public class ParserTest {
                 + "\n}";
 
 
-        var actual = Parser.parse("src/test/resources/differentFile1.json",
+        var actualTwoDifferentFilesJSON = Parser.parse("src/test/resources/differentFile1.json",
                 "src/test/resources/differentFile2.json");
-        assertEquals(expectedTwoDifferentFiles, App.getData(actual));
+        assertEquals(expectedTwoDifferentFiles, App.getData(actualTwoDifferentFilesJSON));
     }
 
     @Test
@@ -164,8 +164,8 @@ public class ParserTest {
                 + "\n}";
 
 
-        var actual = Parser.parse("src/test/resources/differentFile1.yaml",
+        var actualTwoDifferentFilesYAML = Parser.parse("src/test/resources/differentFile1.yaml",
                 "src/test/resources/differentFile2.yaml");
-        assertEquals(expectedTwoDifferentFiles, App.getData(actual));
+        assertEquals(expectedTwoDifferentFiles, App.getData(actualTwoDifferentFilesYAML));
     }
 }

@@ -6,7 +6,6 @@
   "numbers1": [1, 2, 3, 4],
   "numbers2": [2, 3, 4, 5],
   "id": 45,
-  "default": null,
   "checked": false,
   "numbers3": [3, 4, 5],
   "chars1": ["a", "b", "c"],

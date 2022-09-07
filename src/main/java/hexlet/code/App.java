@@ -33,9 +33,10 @@ public class App implements Callable<Integer> {
     public static String getData(Map<String, Object> inputData) {
         StringBuilder output = new StringBuilder("{\n");
         for (var elem: inputData.entrySet()) {
+            String value = elem.getValue() == null ? "null" : elem.getValue().toString();
             output.append(elem.getKey());
             output.append(": ");
-            output.append(elem.getValue().toString());
+            output.append(value);
             output.append("\n");
         }
         output.append("}");

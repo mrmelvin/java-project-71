@@ -10,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.Objects;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -59,8 +60,8 @@ public class Parser {
             allKeys.addAll(mapChangedFile.keySet());
             for (String elem: allKeys) {
                 if (mapBasicFile.containsKey(elem) & mapChangedFile.containsKey(elem)) {
-                    if (mapBasicFile.getOrDefault(elem, "key is null")
-                            .equals(mapChangedFile.getOrDefault(elem, "key is null"))) {
+                    if (Objects.equals(mapBasicFile.getOrDefault(elem, "key is null"),
+                                       mapChangedFile.getOrDefault(elem, "key is null"))) {
                         result.put(PREFIX_EQUAL_DATA + elem, mapBasicFile.getOrDefault(elem, "key is null"));
                     } else {
                         result.put(PREFIX_DELETE_DATA + elem, mapBasicFile.get(elem));
@@ -96,9 +97,9 @@ public class Parser {
             allKeys.addAll(mapChangedFile.keySet());
             for (String elem: allKeys) {
                 if (mapBasicFile.containsKey(elem) & mapChangedFile.containsKey(elem)) {
-                    if (mapBasicFile.getOrDefault(elem, "key is null")
-                            .equals(mapChangedFile.getOrDefault(elem, "key is null"))) {
-                        result.put(PREFIX_EQUAL_DATA + elem, mapBasicFile.getOrDefault(elem, null));
+                    if (Objects.equals(mapBasicFile.getOrDefault(elem, "key is null"),
+                            mapChangedFile.getOrDefault(elem, "key is null"))) {
+                        result.put(PREFIX_EQUAL_DATA + elem, mapBasicFile.getOrDefault(elem, "key is null"));
                     } else {
                         result.put(PREFIX_DELETE_DATA + elem, mapBasicFile.get(elem));
                         result.put(PREFIX_ADD_DATA + elem, mapChangedFile.get(elem));
