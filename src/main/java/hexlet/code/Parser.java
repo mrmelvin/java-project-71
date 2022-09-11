@@ -6,23 +6,21 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.LinkedHashMap;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.Objects;
+
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 public class Parser {
-    public static final String PREFIX_EQUAL_DATA = "    ";
-    public static final String PREFIX_DELETE_DATA = "  - ";
-    public static final String PREFIX_ADD_DATA = "  + ";
 
 
-    public static Map<String, Object> parse(String firstPath, String secondPath) throws IOException {
-        Map<String, Object> output = new LinkedHashMap<>();
+
+    public static Map<String, Object[]> parse(String firstPath, String secondPath) throws IOException {
+        Map<String, Object[]> output = new LinkedHashMap<>();
         if (firstPath.endsWith("json") & secondPath.endsWith("json")) {
             output = parseTwoFilesJSON(firstPath, secondPath);
         } else if (firstPath.endsWith("yaml") & secondPath.endsWith("yaml")) {
@@ -40,14 +38,14 @@ public class Parser {
      * @return sorted Map
      * @throws IOException
      */
-    public static Map<String, Object> parseTwoFilesJSON(String firstPath, String secondPath) throws IOException {
+    public static Map<String, Object[]> parseTwoFilesJSON(String firstPath, String secondPath) throws IOException {
 
 
         Path pathToBasicFile = Paths.get(firstPath).isAbsolute() ? Paths.get(firstPath)
                 : Paths.get(firstPath).toAbsolutePath();
         Path pathToChangedFile = Paths.get(secondPath).isAbsolute() ? Paths.get(secondPath)
                 : Paths.get(secondPath).toAbsolutePath();
-        Map<String, Object> result = new LinkedHashMap<>();
+        Map<String, Object[]> result = new LinkedHashMap<>();
 
         if (Files.exists(pathToBasicFile) & Files.exists(pathToChangedFile)) {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -60,31 +58,25 @@ public class Parser {
             allKeys.addAll(mapChangedFile.keySet());
             for (String elem: allKeys) {
                 if (mapBasicFile.containsKey(elem) & mapChangedFile.containsKey(elem)) {
-                    if (Objects.equals(mapBasicFile.getOrDefault(elem, "key is null"),
-                                       mapChangedFile.getOrDefault(elem, "key is null"))) {
-                        result.put(PREFIX_EQUAL_DATA + elem, mapBasicFile.getOrDefault(elem, "key is null"));
-                    } else {
-                        result.put(PREFIX_DELETE_DATA + elem, mapBasicFile.get(elem));
-                        result.put(PREFIX_ADD_DATA + elem, mapChangedFile.get(elem));
-                    }
-                } else if (mapChangedFile.containsKey(elem) & !mapBasicFile.containsKey(elem)) {
-                    result.put(PREFIX_ADD_DATA + elem, mapChangedFile.get(elem));
+                    result.put(elem, new Object[]{1, 1, mapBasicFile.get(elem), mapChangedFile.get(elem)});
+                } else if (mapBasicFile.containsKey(elem) & !mapChangedFile.containsKey(elem)) {
+                    result.put(elem, new Object[]{1, 0, mapBasicFile.get(elem), mapChangedFile.get(elem)});
                 } else {
-                    result.put(PREFIX_DELETE_DATA + elem, mapBasicFile.get(elem));
+                    result.put(elem, new Object[]{0, 1, mapBasicFile.get(elem), mapChangedFile.get(elem)});
                 }
             }
         }
         return result;
     }
 
-    public static Map<String, Object> parseTwoFilesYAML(String firstPath, String secondPath) throws IOException {
+    public static Map<String, Object[]> parseTwoFilesYAML(String firstPath, String secondPath) throws IOException {
 
 
         Path pathToBasicFile = Paths.get(firstPath).isAbsolute() ? Paths.get(firstPath)
                 : Paths.get(firstPath).toAbsolutePath();
         Path pathToChangedFile = Paths.get(secondPath).isAbsolute() ? Paths.get(secondPath)
                 : Paths.get(secondPath).toAbsolutePath();
-        Map<String, Object> result = new LinkedHashMap<>();
+        Map<String, Object[]> result = new LinkedHashMap<>();
 
         if (Files.exists(pathToBasicFile) & Files.exists(pathToChangedFile)) {
             ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
@@ -97,20 +89,15 @@ public class Parser {
             allKeys.addAll(mapChangedFile.keySet());
             for (String elem: allKeys) {
                 if (mapBasicFile.containsKey(elem) & mapChangedFile.containsKey(elem)) {
-                    if (Objects.equals(mapBasicFile.getOrDefault(elem, "key is null"),
-                            mapChangedFile.getOrDefault(elem, "key is null"))) {
-                        result.put(PREFIX_EQUAL_DATA + elem, mapBasicFile.getOrDefault(elem, "key is null"));
-                    } else {
-                        result.put(PREFIX_DELETE_DATA + elem, mapBasicFile.get(elem));
-                        result.put(PREFIX_ADD_DATA + elem, mapChangedFile.get(elem));
-                    }
-                } else if (mapChangedFile.containsKey(elem) & !mapBasicFile.containsKey(elem)) {
-                    result.put(PREFIX_ADD_DATA + elem, mapChangedFile.get(elem));
+                    result.put(elem, new Object[]{1, 1, mapBasicFile.get(elem), mapChangedFile.get(elem)});
+                } else if (mapBasicFile.containsKey(elem) & !mapChangedFile.containsKey(elem)) {
+                    result.put(elem, new Object[]{1, 0, mapBasicFile.get(elem), mapChangedFile.get(elem)});
                 } else {
-                    result.put(PREFIX_DELETE_DATA + elem, mapBasicFile.get(elem));
+                    result.put(elem, new Object[]{0, 1, mapBasicFile.get(elem), mapChangedFile.get(elem)});
                 }
             }
         }
         return result;
     }
+
 }

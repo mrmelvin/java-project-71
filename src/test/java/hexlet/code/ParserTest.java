@@ -10,6 +10,46 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ParserTest {
 
     @Test
+    public void testPlainJSON() throws Exception {
+        String expectedPlainJSON = "Property 'chars2' was updated. From [complex value] to false\n"
+                + "Property 'checked' was updated. From false to true\n"
+                + "Property 'default' was updated. From null to [complex value]\n"
+                + "Property 'id' was updated. From 45 to null\n"
+                + "Property 'key1' was removed\n"
+                + "Property 'key2' was added with value: 'value2'\n"
+                + "Property 'numbers2' was updated. From [complex value] to [complex value]\n"
+                + "Property 'numbers3' was removed\n"
+                + "Property 'numbers4' was added with value: [complex value]\n"
+                + "Property 'obj1' was added with value: [complex value]\n"
+                + "Property 'setting1' was updated. From 'Some value' to 'Another value'\n"
+                + "Property 'setting2' was updated. From 200 to 300\n"
+                + "Property 'setting3' was updated. From true to 'none'\n";
+        var actualPlainJSON = Parser.parse("src/test/resources/nestedFile1.json\n",
+                "src/test/resources/nestedFile2.json");
+        assertEquals(expectedPlainJSON, App.getDataPlain(actualPlainJSON));
+    }
+
+    @Test
+    public void testPlainYAML() throws Exception {
+        String expectedPlainYAML = "Property 'chars2' was updated. From [complex value] to false\n"
+                + "Property 'checked' was updated. From false to true\n"
+                + "Property 'default' was updated. From null to [complex value]\n"
+                + "Property 'id' was updated. From 45 to null\n"
+                + "Property 'key1' was removed\n"
+                + "Property 'key2' was added with value: 'value2'\n"
+                + "Property 'numbers2' was updated. From [complex value] to [complex value]\n"
+                + "Property 'numbers3' was removed\n"
+                + "Property 'numbers4' was added with value: [complex value]\n"
+                + "Property 'obj1' was added with value: [complex value]\n"
+                + "Property 'setting1' was updated. From 'Some value' to 'Another value'\n"
+                + "Property 'setting2' was updated. From 200 to 300\n"
+                + "Property 'setting3' was updated. From true to 'none'\n";
+        var actualPlainYAML = Parser.parse("src/test/resources/nestedFile1.json",
+                "src/test/resources/nestedFile2.json");
+        assertEquals(expectedPlainYAML, App.getDataPlain(actualPlainYAML));
+    }
+
+    @Test
     public void testNestedFilesJSON() throws Exception {
         String expectedNestedFilesJSON = "{\n"
                 + "    chars1: [a, b, c]\n"
@@ -38,7 +78,7 @@ public class ParserTest {
                 + "\n}";
         var actualNestedFilesJSON = Parser.parse("src/test/resources/nestedFile1.json",
                 "src/test/resources/nestedFile2.json");
-        assertEquals(expectedNestedFilesJSON, App.getData(actualNestedFilesJSON));
+        assertEquals(expectedNestedFilesJSON, App.getDataDefault(actualNestedFilesJSON));
     }
 
     @Test
@@ -70,7 +110,7 @@ public class ParserTest {
                 + "\n}";
         var actualNestedFilesYAML = Parser.parse("src/test/resources/nestedFile1.yaml",
                 "src/test/resources/nestedFile2.yaml");
-        assertEquals(expectedNestedFilesYAML, App.getData(actualNestedFilesYAML));
+        assertEquals(expectedNestedFilesYAML, App.getDataDefault(actualNestedFilesYAML));
     }
     @Test
     public void testTwoIdenticalFilesJSON() throws Exception {
@@ -82,7 +122,7 @@ public class ParserTest {
 
         var actualTwoIdenticalFilesJSON = Parser.parse("src/test/resources/twoIdenticalFile1.json",
                 "src/test/resources/twoIdenticalFile2.json");
-        assertEquals(expectedTwoIdenticalFiles, App.getData(actualTwoIdenticalFilesJSON));
+        assertEquals(expectedTwoIdenticalFiles, App.getDataDefault(actualTwoIdenticalFilesJSON));
 
     }
 
@@ -96,7 +136,7 @@ public class ParserTest {
 
         var actualTwoIdenticalFilesYAML = Parser.parse("src/test/resources/twoIdenticalFile1.yaml",
                 "src/test/resources/twoIdenticalFile2.yaml");
-        assertEquals(expectedTwoIdenticalFiles, App.getData(actualTwoIdenticalFilesYAML));
+        assertEquals(expectedTwoIdenticalFiles, App.getDataDefault(actualTwoIdenticalFilesYAML));
 
     }
 
@@ -113,9 +153,11 @@ public class ParserTest {
                 + "  - online: true\n"
                 + "  + online: false"
                 + "\n}";
-        var actualTwoDifferentFilesWithSameKeysJSON = Parser.parse("src/test/resources/fileWithSameKeys1.json",
+        var actualTwoDifferentFilesWithSameKeysJSON =
+                Parser.parse("src/test/resources/fileWithSameKeys1.json",
                 "src/test/resources/fileWithSameKeys2.json");
-        assertEquals(expectedTwoDifferentFilesWithSameKeys, App.getData(actualTwoDifferentFilesWithSameKeysJSON));
+        assertEquals(expectedTwoDifferentFilesWithSameKeys,
+                     App.getDataDefault(actualTwoDifferentFilesWithSameKeysJSON));
     }
 
     @Test
@@ -130,9 +172,11 @@ public class ParserTest {
                 + "  - online: true\n"
                 + "  + online: false"
                 + "\n}";
-        var actualTwoDifferentFilesWithSameKeysYAML = Parser.parse("src/test/resources/fileWithSameKeys1.yaml",
+        var actualTwoDifferentFilesWithSameKeysYAML =
+                Parser.parse("src/test/resources/fileWithSameKeys1.yaml",
                 "src/test/resources/fileWithSameKeys2.yaml");
-        assertEquals(expectedTwoDifferentFilesWithSameKeys, App.getData(actualTwoDifferentFilesWithSameKeysYAML));
+        assertEquals(expectedTwoDifferentFilesWithSameKeys,
+                     App.getDataDefault(actualTwoDifferentFilesWithSameKeysYAML));
     }
 
     @Test
@@ -149,7 +193,7 @@ public class ParserTest {
 
         var actualTwoDifferentFilesJSON = Parser.parse("src/test/resources/differentFile1.json",
                 "src/test/resources/differentFile2.json");
-        assertEquals(expectedTwoDifferentFiles, App.getData(actualTwoDifferentFilesJSON));
+        assertEquals(expectedTwoDifferentFiles, App.getDataDefault(actualTwoDifferentFilesJSON));
     }
 
     @Test
@@ -166,6 +210,6 @@ public class ParserTest {
 
         var actualTwoDifferentFilesYAML = Parser.parse("src/test/resources/differentFile1.yaml",
                 "src/test/resources/differentFile2.yaml");
-        assertEquals(expectedTwoDifferentFiles, App.getData(actualTwoDifferentFilesYAML));
+        assertEquals(expectedTwoDifferentFiles, App.getDataDefault(actualTwoDifferentFilesYAML));
     }
 }
