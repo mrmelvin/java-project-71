@@ -17,8 +17,6 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 public class Parser {
 
-
-
     public static Map<String, Object[]> parse(String firstPath, String secondPath) throws IOException {
         Map<String, Object[]> output = new LinkedHashMap<>();
         if (firstPath.endsWith("json") & secondPath.endsWith("json")) {
