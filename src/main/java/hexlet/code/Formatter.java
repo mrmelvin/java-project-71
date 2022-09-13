@@ -1,9 +1,9 @@
 package hexlet.code;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
+import java.util.Objects;
 
 public class Formatter {
 
@@ -20,7 +20,7 @@ public class Formatter {
     }
 
     public static String quotesNearValue(Object inpitData) {
-        if (inpitData instanceof Arrays | inpitData instanceof Map<?,?> | inpitData instanceof Set<?>) {
+        if (inpitData instanceof ArrayList<?> | inpitData instanceof Map<?, ?> | inpitData instanceof Set<?>) {
             return "[complex value]";
         } else if (inpitData == null) {
             return "null";
@@ -30,7 +30,6 @@ public class Formatter {
             return inpitData.toString();
         }
     }
-    
 
     public static String getDataDefault(Map<String, Object[]> inputData) {
         StringBuilder output = new StringBuilder("{\n");
@@ -71,15 +70,15 @@ public class Formatter {
         StringBuilder output = new StringBuilder("");
         for (var elem: inputData.entrySet()) {
             if (elem.getValue()[0].equals(0)) {
-                output.append("Property " + quotesNearValue(elem.getKey()) + " was removed\n");
-            } else if (elem.getValue()[1].equals(0)) {
                 output.append("Property " + quotesNearValue(elem.getKey())
                         + " was added with value: "
                         + quotesNearValue(elem.getValue()[INDEX_SECOND_FILE_DATA]) + "\n");
-            } else {
+            } else if (elem.getValue()[1].equals(0)) {
+                output.append("Property " + quotesNearValue(elem.getKey()) + " was removed\n");
+            } else if (!Objects.equals(elem.getValue()[2], elem.getValue()[INDEX_SECOND_FILE_DATA])) {
                 output.append("Property " + quotesNearValue(elem.getKey()) + " was updated. From "
-                        + quotesNearValue(elem.getValue()[2])
-                        + " to " + quotesNearValue(elem.getValue()[INDEX_SECOND_FILE_DATA]) + "\n");
+                            + quotesNearValue(elem.getValue()[2])
+                            + " to " + quotesNearValue(elem.getValue()[INDEX_SECOND_FILE_DATA]) + "\n");
             }
         }
         return output.toString();
