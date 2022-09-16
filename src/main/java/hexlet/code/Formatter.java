@@ -1,9 +1,15 @@
 package hexlet.code;
 
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.LinkedHashMap;
 import java.util.Set;
 import java.util.Objects;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Formatter {
 
@@ -14,6 +20,8 @@ public class Formatter {
 
     public static final String DEFAULT_FORMAT = "stylish";
     public static final String PLAIN_FORMAT = "plain";
+
+    public static final String JSON_FORMAT = "json";
 
     public static String deletingNullPointerExceptions(Object inpitData) {
         return inpitData == null ? "null" : inpitData.toString();
@@ -84,12 +92,51 @@ public class Formatter {
         return output.toString();
     }
 
+    public static String getDataJson(Map<String, Object[]> inputData) {
+
+        Map<String, Map<String, Object>> output = new LinkedHashMap<>();
+        Map<String, Object> addedMap = new TreeMap<>();
+        Map<String, Object> deletedMap = new TreeMap<>();
+        Map<String, Object> changedMap = new TreeMap<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        for (var elem: inputData.entrySet()) {
+            if (elem.getValue()[0].equals(0)) {
+                addedMap.put(elem.getKey(), elem.getValue()[INDEX_SECOND_FILE_DATA].toString());
+            } else if (elem.getValue()[1].equals(0)) {
+                deletedMap.put(elem.getKey(), elem.getValue()[2].toString());
+            } else if (!Objects.equals(elem.getValue()[2], elem.getValue()[INDEX_SECOND_FILE_DATA])) {
+                String[] changedValues = new String[]{deletingNullPointerExceptions(elem.getValue()[2]),
+                        deletingNullPointerExceptions(elem.getValue()[INDEX_SECOND_FILE_DATA])};
+                changedMap.put(elem.getKey(), Arrays.toString(changedValues));
+            }
+        }
+        output.put("added", addedMap);
+        output.put("deleted", deletedMap);
+        output.put("changed", changedMap);
+
+        try {
+            return objectMapper.writeValueAsString(output);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static String format(Map<String, Object[]> inputData, String currentFormat) {
         String diffString = "";
-        if (currentFormat.equals(DEFAULT_FORMAT)) {
-            diffString = getDataDefault(inputData);
-        } else if (currentFormat.equals(PLAIN_FORMAT)) {
-            diffString = getDataPlain(inputData);
+        switch (currentFormat) {
+            case "stylish":
+                diffString = getDataDefault(inputData);
+                break;
+            case "plain":
+                diffString = getDataPlain(inputData);
+                break;
+            case "json":
+                diffString = getDataJson(inputData);
+                break;
+            default:
+                diffString = "Incorrect format type";
+                break;
         }
         return diffString;
     }

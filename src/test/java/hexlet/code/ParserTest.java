@@ -11,6 +11,34 @@ public class ParserTest {
 
     public static final String DEFAULT_FORMAT = "stylish";
     public static final String PLAIN_FORMAT = "plain";
+    public static final String JSON_FORMAT = "json";
+
+
+    @Test
+    public void testNestedJSONOutput() throws IOException {
+        String expectedJSONOutput = "{\"added\":{\"key2\":\"value2\",\"numbers4\":\"[4, 5, 6]\","
+                + "\"obj1\":\"{nestedKey=value, isNested=true}\"},\"deleted\":{\"key1\":\"value1\","
+                + "\"numbers3\":\"[3, 4, 5]\"},\"changed\":{\"chars2\":\"[[d, e, f], false]\","
+                + "\"checked\":\"[false, true]\",\"default\":\"[null, [value1, value2]]\",\"id\":\"[45, null]\","
+                + "\"numbers2\":\"[[2, 3, 4, 5], [22, 33, 44, 55]]\",\"setting1\":\"[Some value, Another value]\","
+                + "\"setting2\":\"[200, 300]\",\"setting3\":\"[true, none]\"}}";
+        var actualJSONOutput = Differ.generate("src/test/resources/nestedFile1.json",
+                "src/test/resources/nestedFile2.json",
+                JSON_FORMAT);
+        assertEquals(expectedJSONOutput, actualJSONOutput);
+    }
+
+    @Test
+    public void testSimpleJSONOutput() throws IOException {
+        String expectedSimpleJSONOutput = "{\"added\":{},\"deleted\":{\"location\":\"Ocean\"},"
+                + "\"changed\":{\"first_name\":\"[Sammy, Lenny]\",\"followers\":\"[987, 876]\","
+                + "\"online\":\"[true, false]\"}}";
+        var actualSimpleJSONOutput = Differ.generate("src/test/resources/fileWithSameKeys1.json",
+                "src/test/resources/fileWithSameKeys2.json",
+                JSON_FORMAT);
+        assertEquals(expectedSimpleJSONOutput, actualSimpleJSONOutput);
+    }
+
     @Test
     public void testPlainJSON() throws Exception {
         String expectedPlainJSON = "Property 'chars2' was updated. From [complex value] to false\n"
