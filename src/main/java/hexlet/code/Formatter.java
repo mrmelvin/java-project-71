@@ -46,7 +46,8 @@ public class Formatter {
     public static String getDataDefault(Map<String, Object[]> inputData) {
         StringBuilder output = new StringBuilder("{\n");
         for (var elem: inputData.entrySet()) {
-            if (elem.getValue()[INDEX_FIRST_FILE_AVAILABLE_KEY].equals(1) & elem.getValue()[INDEX_SECOND_FILE_AVAILABLE_KEY].equals(1)) {
+            if (elem.getValue()[INDEX_FIRST_FILE_AVAILABLE_KEY].equals(1)
+                    & elem.getValue()[INDEX_SECOND_FILE_AVAILABLE_KEY].equals(1)) {
                 if (Objects.equals(elem.getValue()[INDEX_FIRST_FILE_DATA], elem.getValue()[INDEX_SECOND_FILE_DATA])) {
                     output.append(PREFIX_EQUAL_DATA + elem.getKey());
                     output.append(": ");
@@ -87,7 +88,8 @@ public class Formatter {
                         + formattedValuesForPlainOutput(elem.getValue()[INDEX_SECOND_FILE_DATA]) + "\n");
             } else if (elem.getValue()[INDEX_SECOND_FILE_AVAILABLE_KEY].equals(0)) {
                 output.append("Property " + formattedValuesForPlainOutput(elem.getKey()) + " was removed\n");
-            } else if (!Objects.equals(elem.getValue()[INDEX_FIRST_FILE_DATA], elem.getValue()[INDEX_SECOND_FILE_DATA])) {
+            } else if (!Objects.equals(elem.getValue()[INDEX_FIRST_FILE_DATA],
+                                       elem.getValue()[INDEX_SECOND_FILE_DATA])) {
                 output.append("Property " + formattedValuesForPlainOutput(elem.getKey()) + " was updated. From "
                             + formattedValuesForPlainOutput(elem.getValue()[INDEX_FIRST_FILE_DATA])
                             + " to " + formattedValuesForPlainOutput(elem.getValue()[INDEX_SECOND_FILE_DATA]) + "\n");
@@ -109,7 +111,8 @@ public class Formatter {
                 addedMap.put(elem.getKey(), elem.getValue()[INDEX_SECOND_FILE_DATA].toString());
             } else if (elem.getValue()[INDEX_SECOND_FILE_AVAILABLE_KEY].equals(0)) {
                 deletedMap.put(elem.getKey(), elem.getValue()[INDEX_FIRST_FILE_DATA].toString());
-            } else if (!Objects.equals(elem.getValue()[INDEX_FIRST_FILE_DATA], elem.getValue()[INDEX_SECOND_FILE_DATA])) {
+            } else if (!Objects.equals(elem.getValue()[INDEX_FIRST_FILE_DATA],
+                                       elem.getValue()[INDEX_SECOND_FILE_DATA])) {
                 String[] changedValues = new String[]{presentNullToString(elem.getValue()[INDEX_FIRST_FILE_DATA]),
                         presentNullToString(elem.getValue()[INDEX_SECOND_FILE_DATA])};
                 changedMap.put(elem.getKey(), Arrays.toString(changedValues));
