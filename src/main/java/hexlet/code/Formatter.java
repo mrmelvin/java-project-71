@@ -23,19 +23,19 @@ public class Formatter {
 
     public static final String JSON_FORMAT = "json";
 
-    public static String deletingNullPointerExceptions(Object inpitData) {
-        return inpitData == null ? "null" : inpitData.toString();
+    public static String presentNullToString(Object inputData) {
+        return inputData == null ? "null" : inputData.toString();
     }
 
-    public static String quotesNearValue(Object inpitData) {
-        if (inpitData instanceof ArrayList<?> | inpitData instanceof Map<?, ?> | inpitData instanceof Set<?>) {
+    public static String formattedValuesForPlainOutput(Object inputData) {
+        if (inputData instanceof ArrayList<?> | inputData instanceof Map<?, ?> | inputData instanceof Set<?>) {
             return "[complex value]";
-        } else if (inpitData == null) {
+        } else if (inputData == null) {
             return "null";
-        } else if (inpitData instanceof String) {
-            return "'" + inpitData + "'";
+        } else if (inputData instanceof String) {
+            return "'" + inputData + "'";
         } else {
-            return inpitData.toString();
+            return inputData.toString();
         }
     }
 
@@ -46,27 +46,27 @@ public class Formatter {
                 if (Objects.equals(elem.getValue()[2], elem.getValue()[INDEX_SECOND_FILE_DATA])) {
                     output.append(PREFIX_EQUAL_DATA + elem.getKey());
                     output.append(": ");
-                    output.append(deletingNullPointerExceptions(elem.getValue()[2]));
+                    output.append(presentNullToString(elem.getValue()[2]));
                     output.append("\n");
                 } else {
                     output.append(PREFIX_DELETE_DATA + elem.getKey());
                     output.append(": ");
-                    output.append(deletingNullPointerExceptions(elem.getValue()[2]));
+                    output.append(presentNullToString(elem.getValue()[2]));
                     output.append("\n");
                     output.append(PREFIX_ADD_DATA + elem.getKey());
                     output.append(": ");
-                    output.append(deletingNullPointerExceptions(elem.getValue()[INDEX_SECOND_FILE_DATA]));
+                    output.append(presentNullToString(elem.getValue()[INDEX_SECOND_FILE_DATA]));
                     output.append("\n");
                 }
             } else if (elem.getValue()[0].equals(0)) {
                 output.append(PREFIX_ADD_DATA + elem.getKey());
                 output.append(": ");
-                output.append(deletingNullPointerExceptions(elem.getValue()[INDEX_SECOND_FILE_DATA]));
+                output.append(presentNullToString(elem.getValue()[INDEX_SECOND_FILE_DATA]));
                 output.append("\n");
             } else {
                 output.append(PREFIX_DELETE_DATA + elem.getKey());
                 output.append(": ");
-                output.append(deletingNullPointerExceptions(elem.getValue()[2]));
+                output.append(presentNullToString(elem.getValue()[2]));
                 output.append("\n");
             }
         }
@@ -78,15 +78,15 @@ public class Formatter {
         StringBuilder output = new StringBuilder("");
         for (var elem: inputData.entrySet()) {
             if (elem.getValue()[0].equals(0)) {
-                output.append("Property " + quotesNearValue(elem.getKey())
+                output.append("Property " + formattedValuesForPlainOutput(elem.getKey())
                         + " was added with value: "
-                        + quotesNearValue(elem.getValue()[INDEX_SECOND_FILE_DATA]) + "\n");
+                        + formattedValuesForPlainOutput(elem.getValue()[INDEX_SECOND_FILE_DATA]) + "\n");
             } else if (elem.getValue()[1].equals(0)) {
-                output.append("Property " + quotesNearValue(elem.getKey()) + " was removed\n");
+                output.append("Property " + formattedValuesForPlainOutput(elem.getKey()) + " was removed\n");
             } else if (!Objects.equals(elem.getValue()[2], elem.getValue()[INDEX_SECOND_FILE_DATA])) {
-                output.append("Property " + quotesNearValue(elem.getKey()) + " was updated. From "
-                            + quotesNearValue(elem.getValue()[2])
-                            + " to " + quotesNearValue(elem.getValue()[INDEX_SECOND_FILE_DATA]) + "\n");
+                output.append("Property " + formattedValuesForPlainOutput(elem.getKey()) + " was updated. From "
+                            + formattedValuesForPlainOutput(elem.getValue()[2])
+                            + " to " + formattedValuesForPlainOutput(elem.getValue()[INDEX_SECOND_FILE_DATA]) + "\n");
             }
         }
         return output.toString();
@@ -106,8 +106,8 @@ public class Formatter {
             } else if (elem.getValue()[1].equals(0)) {
                 deletedMap.put(elem.getKey(), elem.getValue()[2].toString());
             } else if (!Objects.equals(elem.getValue()[2], elem.getValue()[INDEX_SECOND_FILE_DATA])) {
-                String[] changedValues = new String[]{deletingNullPointerExceptions(elem.getValue()[2]),
-                        deletingNullPointerExceptions(elem.getValue()[INDEX_SECOND_FILE_DATA])};
+                String[] changedValues = new String[]{presentNullToString(elem.getValue()[2]),
+                        presentNullToString(elem.getValue()[INDEX_SECOND_FILE_DATA])};
                 changedMap.put(elem.getKey(), Arrays.toString(changedValues));
             }
         }
@@ -125,13 +125,13 @@ public class Formatter {
     public static String format(Map<String, Object[]> inputData, String currentFormat) {
         String diffString = "";
         switch (currentFormat) {
-            case "stylish":
+            case DEFAULT_FORMAT:
                 diffString = getDataDefault(inputData);
                 break;
-            case "plain":
+            case PLAIN_FORMAT:
                 diffString = getDataPlain(inputData);
                 break;
-            case "json":
+            case JSON_FORMAT:
                 diffString = getDataJson(inputData);
                 break;
             default:
