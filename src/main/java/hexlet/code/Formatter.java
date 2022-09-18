@@ -16,6 +16,10 @@ public class Formatter {
     public static final String PREFIX_EQUAL_DATA = "    ";
     public static final String PREFIX_DELETE_DATA = "  - ";
     public static final String PREFIX_ADD_DATA = "  + ";
+
+    public static final int INDEX_FIRST_FILE_AVAILABLE_KEY = 0;
+    public static final int INDEX_SECOND_FILE_AVAILABLE_KEY = 1;
+    public static final int INDEX_FIRST_FILE_DATA = 2;
     public static final int INDEX_SECOND_FILE_DATA = 3;
 
     public static final String DEFAULT_FORMAT = "stylish";
@@ -42,8 +46,8 @@ public class Formatter {
     public static String getDataDefault(Map<String, Object[]> inputData) {
         StringBuilder output = new StringBuilder("{\n");
         for (var elem: inputData.entrySet()) {
-            if (elem.getValue()[0].equals(1) & elem.getValue()[1].equals(1)) {
-                if (Objects.equals(elem.getValue()[2], elem.getValue()[INDEX_SECOND_FILE_DATA])) {
+            if (elem.getValue()[INDEX_FIRST_FILE_AVAILABLE_KEY].equals(1) & elem.getValue()[INDEX_SECOND_FILE_AVAILABLE_KEY].equals(1)) {
+                if (Objects.equals(elem.getValue()[INDEX_FIRST_FILE_DATA], elem.getValue()[INDEX_SECOND_FILE_DATA])) {
                     output.append(PREFIX_EQUAL_DATA + elem.getKey());
                     output.append(": ");
                     output.append(presentNullToString(elem.getValue()[2]));
@@ -58,7 +62,7 @@ public class Formatter {
                     output.append(presentNullToString(elem.getValue()[INDEX_SECOND_FILE_DATA]));
                     output.append("\n");
                 }
-            } else if (elem.getValue()[0].equals(0)) {
+            } else if (elem.getValue()[INDEX_FIRST_FILE_AVAILABLE_KEY].equals(0)) {
                 output.append(PREFIX_ADD_DATA + elem.getKey());
                 output.append(": ");
                 output.append(presentNullToString(elem.getValue()[INDEX_SECOND_FILE_DATA]));
@@ -77,15 +81,15 @@ public class Formatter {
     public static String getDataPlain(Map<String, Object[]> inputData) {
         StringBuilder output = new StringBuilder("");
         for (var elem: inputData.entrySet()) {
-            if (elem.getValue()[0].equals(0)) {
+            if (elem.getValue()[INDEX_FIRST_FILE_AVAILABLE_KEY].equals(0)) {
                 output.append("Property " + formattedValuesForPlainOutput(elem.getKey())
                         + " was added with value: "
                         + formattedValuesForPlainOutput(elem.getValue()[INDEX_SECOND_FILE_DATA]) + "\n");
-            } else if (elem.getValue()[1].equals(0)) {
+            } else if (elem.getValue()[INDEX_SECOND_FILE_AVAILABLE_KEY].equals(0)) {
                 output.append("Property " + formattedValuesForPlainOutput(elem.getKey()) + " was removed\n");
-            } else if (!Objects.equals(elem.getValue()[2], elem.getValue()[INDEX_SECOND_FILE_DATA])) {
+            } else if (!Objects.equals(elem.getValue()[INDEX_FIRST_FILE_DATA], elem.getValue()[INDEX_SECOND_FILE_DATA])) {
                 output.append("Property " + formattedValuesForPlainOutput(elem.getKey()) + " was updated. From "
-                            + formattedValuesForPlainOutput(elem.getValue()[2])
+                            + formattedValuesForPlainOutput(elem.getValue()[INDEX_FIRST_FILE_DATA])
                             + " to " + formattedValuesForPlainOutput(elem.getValue()[INDEX_SECOND_FILE_DATA]) + "\n");
             }
         }
@@ -101,12 +105,12 @@ public class Formatter {
         ObjectMapper objectMapper = new ObjectMapper();
 
         for (var elem: inputData.entrySet()) {
-            if (elem.getValue()[0].equals(0)) {
+            if (elem.getValue()[INDEX_FIRST_FILE_AVAILABLE_KEY].equals(0)) {
                 addedMap.put(elem.getKey(), elem.getValue()[INDEX_SECOND_FILE_DATA].toString());
-            } else if (elem.getValue()[1].equals(0)) {
-                deletedMap.put(elem.getKey(), elem.getValue()[2].toString());
-            } else if (!Objects.equals(elem.getValue()[2], elem.getValue()[INDEX_SECOND_FILE_DATA])) {
-                String[] changedValues = new String[]{presentNullToString(elem.getValue()[2]),
+            } else if (elem.getValue()[INDEX_SECOND_FILE_AVAILABLE_KEY].equals(0)) {
+                deletedMap.put(elem.getKey(), elem.getValue()[INDEX_FIRST_FILE_DATA].toString());
+            } else if (!Objects.equals(elem.getValue()[INDEX_FIRST_FILE_DATA], elem.getValue()[INDEX_SECOND_FILE_DATA])) {
+                String[] changedValues = new String[]{presentNullToString(elem.getValue()[INDEX_FIRST_FILE_DATA]),
                         presentNullToString(elem.getValue()[INDEX_SECOND_FILE_DATA])};
                 changedMap.put(elem.getKey(), Arrays.toString(changedValues));
             }
