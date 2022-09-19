@@ -36,3 +36,6 @@ make lint
 ```shell
 make report
 ```
+
+## Example using
+[![asciicast](https://asciinema.org/a/f4920cpOa5z9vjzXr43sF5qIG.svg)](https://asciinema.org/a/f4920cpOa5z9vjzXr43sF5qIG)
