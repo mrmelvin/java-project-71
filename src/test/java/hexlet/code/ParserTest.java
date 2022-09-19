@@ -249,4 +249,21 @@ public class ParserTest {
                                                                 DEFAULT_FORMAT);
         assertEquals(expectedTwoDifferentFiles, actualTwoDifferentFilesYAML);
     }
+
+    @Test
+    public void testTwoDifferentFilesDefaultFormat() throws IOException {
+        String expectedTwoDifferentFiles = "{\n"
+                + "  - age: 30\n"
+                + "  + director: Francis Ford Coppola\n"
+                + "  + filmName: Godfather\n"
+                + "  - firstName: John\n"
+                + "  - lastName: Doe\n"
+                + "  + year: 1972"
+                + "\n}";
+
+
+        var actualTwoDifferentFilesJSON = Differ.generate("src/test/resources/differentFile1.json",
+                "src/test/resources/differentFile2.json");
+        assertEquals(expectedTwoDifferentFiles, actualTwoDifferentFilesJSON);
+    }
 }
