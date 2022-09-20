@@ -20,9 +20,10 @@ public class Parser {
 
     public static Map<String, Object[]> parse(String firstPath, String secondPath) throws IOException {
         Map<String, Object[]> output = new LinkedHashMap<>();
+
         if (firstPath.endsWith("json") & secondPath.endsWith("json")) {
             output = parseTwoFilesJSON(firstPath, secondPath);
-        } else if (firstPath.endsWith("yaml") & secondPath.endsWith("yaml")) {
+        } else if ((firstPath.endsWith("yml") & secondPath.endsWith("yml"))) {
             output = parseTwoFilesYAML(firstPath, secondPath);
         } else {
             System.out.println("Files have two different format");

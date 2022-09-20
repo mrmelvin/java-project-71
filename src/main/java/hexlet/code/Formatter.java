@@ -2,11 +2,13 @@ package hexlet.code;
 
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.LinkedHashMap;
 import java.util.Set;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,7 +26,6 @@ public class Formatter {
 
     public static final String DEFAULT_FORMAT = "stylish";
     public static final String PLAIN_FORMAT = "plain";
-
     public static final String JSON_FORMAT = "json";
 
     public static String presentNullToString(Object inputData) {
@@ -80,22 +81,22 @@ public class Formatter {
     }
 
     public static String getDataPlain(Map<String, Object[]> inputData) {
-        StringBuilder output = new StringBuilder("");
+        List<String> output = new ArrayList<>();
         for (var elem: inputData.entrySet()) {
             if (elem.getValue()[INDEX_FIRST_FILE_AVAILABLE_KEY].equals(0)) {
-                output.append("Property " + formattedValuesForPlainOutput(elem.getKey())
+                output.add("Property " + formattedValuesForPlainOutput(elem.getKey())
                         + " was added with value: "
-                        + formattedValuesForPlainOutput(elem.getValue()[INDEX_SECOND_FILE_DATA]) + "\n");
+                        + formattedValuesForPlainOutput(elem.getValue()[INDEX_SECOND_FILE_DATA]));
             } else if (elem.getValue()[INDEX_SECOND_FILE_AVAILABLE_KEY].equals(0)) {
-                output.append("Property " + formattedValuesForPlainOutput(elem.getKey()) + " was removed\n");
+                output.add("Property " + formattedValuesForPlainOutput(elem.getKey()) + " was removed");
             } else if (!Objects.equals(elem.getValue()[INDEX_FIRST_FILE_DATA],
                                        elem.getValue()[INDEX_SECOND_FILE_DATA])) {
-                output.append("Property " + formattedValuesForPlainOutput(elem.getKey()) + " was updated. From "
+                output.add("Property " + formattedValuesForPlainOutput(elem.getKey()) + " was updated. From "
                             + formattedValuesForPlainOutput(elem.getValue()[INDEX_FIRST_FILE_DATA])
-                            + " to " + formattedValuesForPlainOutput(elem.getValue()[INDEX_SECOND_FILE_DATA]) + "\n");
+                            + " to " + formattedValuesForPlainOutput(elem.getValue()[INDEX_SECOND_FILE_DATA]));
             }
         }
-        return output.toString();
+        return output.stream().collect(Collectors.joining("\n"));
     }
 
     public static String getDataJson(Map<String, Object[]> inputData) {

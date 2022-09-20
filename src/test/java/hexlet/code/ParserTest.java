@@ -53,7 +53,7 @@ public class ParserTest {
                 + "Property 'obj1' was added with value: [complex value]\n"
                 + "Property 'setting1' was updated. From 'Some value' to 'Another value'\n"
                 + "Property 'setting2' was updated. From 200 to 300\n"
-                + "Property 'setting3' was updated. From true to 'none'\n";
+                + "Property 'setting3' was updated. From true to 'none'";
 
         var actualPlainJSON = Differ.generate("src/test/resources/nestedFile1.json",
                                             "src/test/resources/nestedFile2.json",
@@ -75,7 +75,7 @@ public class ParserTest {
                 + "Property 'obj1' was added with value: [complex value]\n"
                 + "Property 'setting1' was updated. From 'Some value' to 'Another value'\n"
                 + "Property 'setting2' was updated. From 200 to 300\n"
-                + "Property 'setting3' was updated. From true to 'none'\n";
+                + "Property 'setting3' was updated. From true to 'none'";
         var actualPlainYAML = Differ.generate("src/test/resources/nestedFile1.json",
                                             "src/test/resources/nestedFile2.json",
                                                     PLAIN_FORMAT);
@@ -142,8 +142,8 @@ public class ParserTest {
                 + "  - setting3: true\n"
                 + "  + setting3: none"
                 + "\n}";
-        var actualNestedFilesYAML = Differ.generate("src/test/resources/nestedFile1.yaml",
-                                                    "src/test/resources/nestedFile2.yaml",
+        var actualNestedFilesYAML = Differ.generate("src/test/resources/nestedFile1.yml",
+                                                    "src/test/resources/nestedFile2.yml",
                                                             DEFAULT_FORMAT);
         assertEquals(expectedNestedFilesYAML, actualNestedFilesYAML);
     }
@@ -170,8 +170,8 @@ public class ParserTest {
                 + "    currency: euro"
                 + "\n}";
 
-        var actualTwoIdenticalFilesYAML = Differ.generate("src/test/resources/twoIdenticalFile1.yaml",
-                "src/test/resources/twoIdenticalFile2.yaml", DEFAULT_FORMAT);
+        var actualTwoIdenticalFilesYAML = Differ.generate("src/test/resources/twoIdenticalFile1.yml",
+                "src/test/resources/twoIdenticalFile2.yml", DEFAULT_FORMAT);
         assertEquals(expectedTwoIdenticalFiles, actualTwoIdenticalFilesYAML);
 
     }
@@ -209,8 +209,8 @@ public class ParserTest {
                 + "  + online: false"
                 + "\n}";
         var actualTwoDifferentFilesWithSameKeysYAML =
-                Differ.generate("src/test/resources/fileWithSameKeys1.yaml",
-                "src/test/resources/fileWithSameKeys2.yaml",
+                Differ.generate("src/test/resources/fileWithSameKeys1.yml",
+                "src/test/resources/fileWithSameKeys2.yml",
                         DEFAULT_FORMAT);
         assertEquals(expectedTwoDifferentFilesWithSameKeys, actualTwoDifferentFilesWithSameKeysYAML);
     }
@@ -244,8 +244,8 @@ public class ParserTest {
                 + "\n}";
 
 
-        var actualTwoDifferentFilesYAML = Differ.generate("src/test/resources/differentFile1.yaml",
-                                                        "src/test/resources/differentFile2.yaml",
+        var actualTwoDifferentFilesYAML = Differ.generate("src/test/resources/differentFile1.yml",
+                                                        "src/test/resources/differentFile2.yml",
                                                                 DEFAULT_FORMAT);
         assertEquals(expectedTwoDifferentFiles, actualTwoDifferentFilesYAML);
     }
