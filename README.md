@@ -38,4 +38,4 @@ make report
 ```
 
 ## Example of using app
-[![asciicast](https://asciinema.org/a/f4920cpOa5z9vjzXr43sF5qIG.svg)](https://asciinema.org/a/f4920cpOa5z9vjzXr43sF5qIG)
+[![asciicast](https://asciinema.org/a/575rCptZewJAQaFmULwGxH7ls.svg)](https://asciinema.org/a/575rCptZewJAQaFmULwGxH7ls)
