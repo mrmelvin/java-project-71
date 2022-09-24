@@ -7,6 +7,16 @@
 
 [![Test Coverage](https://api.codeclimate.com/v1/badges/956bc5d98d1677aaa67d/test_coverage)](https://codeclimate.com/github/mrmelvin/java-project-71/test_coverage)
 
+
+Вычислитель отличий – утилита, определяющая разницу между двумя структурами данных, представленными в виде двух файлов.
+
+Возможности утилиты:
+
+- Поддержка разных входных форматов: yaml и json
+- Генерация отчета в виде дерева, plain text и json
+
+Ниже описаны основные команды:
+
 ## Start
 ```shell
 make
