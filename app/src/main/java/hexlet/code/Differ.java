@@ -13,17 +13,29 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 public class Differ {
 
+    public static String getFileExtension(Path path) {
+        return path.toString().substring(path.toString().lastIndexOf(".") + 1);
+    }
+
     public static Map readingFile(String filePath) throws IOException {
         Map<String, Object> fileToMap = new HashMap<>();
         Path pathToBasicFile = Paths.get(filePath).isAbsolute() ? Paths.get(filePath)
                 : Paths.get(filePath).toAbsolutePath();
         if (Files.exists(pathToBasicFile)) {
-            if (pathToBasicFile.toString().endsWith("json")) {
-                ObjectMapper objectMapper = new ObjectMapper();
-                fileToMap = objectMapper.readValue(new File(pathToBasicFile.toString()), Map.class);
-            } else if (pathToBasicFile.toString().endsWith("yml")) {
-                ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
-                fileToMap = objectMapper.readValue(new File(pathToBasicFile.toString()), Map.class);
+            String fileExtension = getFileExtension(pathToBasicFile);
+            ObjectMapper objectMapper = null;
+            switch (fileExtension) {
+                case "json":
+                    objectMapper = new ObjectMapper();
+                    fileToMap = objectMapper.readValue(new File(pathToBasicFile.toString()), Map.class);
+                    break;
+                case "yml":
+                    objectMapper = new ObjectMapper(new YAMLFactory());
+                    fileToMap = objectMapper.readValue(new File(pathToBasicFile.toString()), Map.class);
+                    break;
+                default:
+                    System.out.println("Unsupported file format");
+                    break;
             }
         } else {
             return null;

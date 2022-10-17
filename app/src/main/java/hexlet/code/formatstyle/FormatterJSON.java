@@ -1,4 +1,4 @@
-package hexlet.code;
+package hexlet.code.formatstyle;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,15 +19,15 @@ public class FormatterJSON {
         ObjectMapper objectMapper = new ObjectMapper();
 
         for (var elem: inputData.entrySet()) {
-            if (elem.getValue()[Formatter.INDEX_FIRST_FILE_AVAILABLE_KEY].equals(0)) {
-                addedMap.put(elem.getKey(), elem.getValue()[Formatter.INDEX_SECOND_FILE_DATA].toString());
-            } else if (elem.getValue()[Formatter.INDEX_SECOND_FILE_AVAILABLE_KEY].equals(0)) {
-                deletedMap.put(elem.getKey(), elem.getValue()[Formatter.INDEX_FIRST_FILE_DATA].toString());
-            } else if (!Objects.equals(elem.getValue()[Formatter.INDEX_FIRST_FILE_DATA],
-                    elem.getValue()[Formatter.INDEX_SECOND_FILE_DATA])) {
+            if (elem.getValue()[FormatterDefault.INDEX_FIRST_FILE_AVAILABLE_KEY].equals(0)) {
+                addedMap.put(elem.getKey(), elem.getValue()[FormatterDefault.INDEX_SECOND_FILE_DATA].toString());
+            } else if (elem.getValue()[FormatterDefault.INDEX_SECOND_FILE_AVAILABLE_KEY].equals(0)) {
+                deletedMap.put(elem.getKey(), elem.getValue()[FormatterDefault.INDEX_FIRST_FILE_DATA].toString());
+            } else if (!Objects.equals(elem.getValue()[FormatterDefault.INDEX_FIRST_FILE_DATA],
+                    elem.getValue()[FormatterDefault.INDEX_SECOND_FILE_DATA])) {
                 String[] changedValues = new String[]{
-                        Formatter.presentNullToString(elem.getValue()[Formatter.INDEX_FIRST_FILE_DATA]),
-                        Formatter.presentNullToString(elem.getValue()[Formatter.INDEX_SECOND_FILE_DATA])};
+                        FormatterDefault.presentNullToString(elem.getValue()[FormatterDefault.INDEX_FIRST_FILE_DATA]),
+                        FormatterDefault.presentNullToString(elem.getValue()[FormatterDefault.INDEX_SECOND_FILE_DATA])};
                 changedMap.put(elem.getKey(), Arrays.toString(changedValues));
             }
         }

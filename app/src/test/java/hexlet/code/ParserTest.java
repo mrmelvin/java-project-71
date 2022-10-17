@@ -2,10 +2,12 @@ package hexlet.code;
 
 
 import java.io.IOException;
-
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.io.File;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.stream.Collectors;
 
 public class ParserTest {
 
@@ -13,15 +15,13 @@ public class ParserTest {
     public static final String PLAIN_FORMAT = "plain";
     public static final String JSON_FORMAT = "json";
 
-
     @Test
     public void testNestedJSONOutput() throws IOException {
-        String expectedJSONOutput = "{\"added\":{\"key2\":\"value2\",\"numbers4\":\"[4, 5, 6]\","
-                + "\"obj1\":\"{nestedKey=value, isNested=true}\"},\"deleted\":{\"key1\":\"value1\","
-                + "\"numbers3\":\"[3, 4, 5]\"},\"changed\":{\"chars2\":\"[[d, e, f], false]\","
-                + "\"checked\":\"[false, true]\",\"default\":\"[null, [value1, value2]]\",\"id\":\"[45, null]\","
-                + "\"numbers2\":\"[[2, 3, 4, 5], [22, 33, 44, 55]]\",\"setting1\":\"[Some value, Another value]\","
-                + "\"setting2\":\"[200, 300]\",\"setting3\":\"[true, none]\"}}";
+
+        String jsonOutput = "src/test/resources/expectedJSONOutput.json";
+        BufferedReader reader = new BufferedReader(new FileReader(new File(jsonOutput)));
+        String expectedJSONOutput = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+
         var actualJSONOutput = Differ.generate("src/test/resources/nestedFile1.json",
                 "src/test/resources/nestedFile2.json",
                 JSON_FORMAT);
@@ -41,19 +41,9 @@ public class ParserTest {
 
     @Test
     public void testPlainJSON() throws Exception {
-        String expectedPlainJSON = "Property 'chars2' was updated. From [complex value] to false\n"
-                + "Property 'checked' was updated. From false to true\n"
-                + "Property 'default' was updated. From null to [complex value]\n"
-                + "Property 'id' was updated. From 45 to null\n"
-                + "Property 'key1' was removed\n"
-                + "Property 'key2' was added with value: 'value2'\n"
-                + "Property 'numbers2' was updated. From [complex value] to [complex value]\n"
-                + "Property 'numbers3' was removed\n"
-                + "Property 'numbers4' was added with value: [complex value]\n"
-                + "Property 'obj1' was added with value: [complex value]\n"
-                + "Property 'setting1' was updated. From 'Some value' to 'Another value'\n"
-                + "Property 'setting2' was updated. From 200 to 300\n"
-                + "Property 'setting3' was updated. From true to 'none'";
+
+        BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/expectedPlain.txt")));
+        String expectedPlainJSON = reader.lines().collect(Collectors.joining(System.lineSeparator()));
 
         var actualPlainJSON = Differ.generate("src/test/resources/nestedFile1.json",
                                             "src/test/resources/nestedFile2.json",
@@ -63,19 +53,9 @@ public class ParserTest {
 
     @Test
     public void testPlainYAML() throws Exception {
-        String expectedPlainYAML = "Property 'chars2' was updated. From [complex value] to false\n"
-                + "Property 'checked' was updated. From false to true\n"
-                + "Property 'default' was updated. From null to [complex value]\n"
-                + "Property 'id' was updated. From 45 to null\n"
-                + "Property 'key1' was removed\n"
-                + "Property 'key2' was added with value: 'value2'\n"
-                + "Property 'numbers2' was updated. From [complex value] to [complex value]\n"
-                + "Property 'numbers3' was removed\n"
-                + "Property 'numbers4' was added with value: [complex value]\n"
-                + "Property 'obj1' was added with value: [complex value]\n"
-                + "Property 'setting1' was updated. From 'Some value' to 'Another value'\n"
-                + "Property 'setting2' was updated. From 200 to 300\n"
-                + "Property 'setting3' was updated. From true to 'none'";
+
+        BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/expectedPlain.txt")));
+        String expectedPlainYAML = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         var actualPlainYAML = Differ.generate("src/test/resources/nestedFile1.json",
                                             "src/test/resources/nestedFile2.json",
                                                     PLAIN_FORMAT);
@@ -84,31 +64,11 @@ public class ParserTest {
 
     @Test
     public void testNestedFilesJSON() throws Exception {
-        String expectedNestedFilesJSON = "{\n"
-                + "    chars1: [a, b, c]\n"
-                + "  - chars2: [d, e, f]\n"
-                + "  + chars2: false\n"
-                + "  - checked: false\n"
-                + "  + checked: true\n"
-                + "  - default: null\n"
-                + "  + default: [value1, value2]\n"
-                + "  - id: 45\n"
-                + "  + id: null\n"
-                + "  - key1: value1\n"
-                + "  + key2: value2\n"
-                + "    numbers1: [1, 2, 3, 4]\n"
-                + "  - numbers2: [2, 3, 4, 5]\n"
-                + "  + numbers2: [22, 33, 44, 55]\n"
-                + "  - numbers3: [3, 4, 5]\n"
-                + "  + numbers4: [4, 5, 6]\n"
-                + "  + obj1: {nestedKey=value, isNested=true}\n"
-                + "  - setting1: Some value\n"
-                + "  + setting1: Another value\n"
-                + "  - setting2: 200\n"
-                + "  + setting2: 300\n"
-                + "  - setting3: true\n"
-                + "  + setting3: none"
-                + "\n}";
+
+        String nestedFile = "src/test/resources/expectedNestedFiles.txt";
+        BufferedReader reader = new BufferedReader(new FileReader(new File(nestedFile)));
+        String expectedNestedFilesJSON = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+
         var actualNestedFilesJSON = Differ.generate("src/test/resources/nestedFile1.json",
                                                     "src/test/resources/nestedFile2.json",
                                                             DEFAULT_FORMAT);
@@ -117,31 +77,11 @@ public class ParserTest {
 
     @Test
     public void testNestedFilesYAML() throws Exception {
-        String expectedNestedFilesYAML = "{\n"
-                + "    chars1: [a, b, c]\n"
-                + "  - chars2: [d, e, f]\n"
-                + "  + chars2: false\n"
-                + "  - checked: false\n"
-                + "  + checked: true\n"
-                + "  - default: null\n"
-                + "  + default: [value1, value2]\n"
-                + "  - id: 45\n"
-                + "  + id: null\n"
-                + "  - key1: value1\n"
-                + "  + key2: value2\n"
-                + "    numbers1: [1, 2, 3, 4]\n"
-                + "  - numbers2: [2, 3, 4, 5]\n"
-                + "  + numbers2: [22, 33, 44, 55]\n"
-                + "  - numbers3: [3, 4, 5]\n"
-                + "  + numbers4: [4, 5, 6]\n"
-                + "  + obj1: {nestedKey=value, isNested=true}\n"
-                + "  - setting1: Some value\n"
-                + "  + setting1: Another value\n"
-                + "  - setting2: 200\n"
-                + "  + setting2: 300\n"
-                + "  - setting3: true\n"
-                + "  + setting3: none"
-                + "\n}";
+
+        String nestedFile2 = "src/test/resources/expectedNestedFiles.txt";
+        BufferedReader reader = new BufferedReader(new FileReader(new File(nestedFile2)));
+        String expectedNestedFilesYAML = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+
         var actualNestedFilesYAML = Differ.generate("src/test/resources/nestedFile1.yml",
                                                     "src/test/resources/nestedFile2.yml",
                                                             DEFAULT_FORMAT);
