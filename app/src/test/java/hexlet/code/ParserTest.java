@@ -15,12 +15,15 @@ public class ParserTest {
     public static final String PLAIN_FORMAT = "plain";
     public static final String JSON_FORMAT = "json";
 
+    public static String readingFileToString(String pathToFile) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(new File(pathToFile)));
+        return reader.lines().collect(Collectors.joining(System.lineSeparator()));
+    }
+
     @Test
     public void testNestedJSONOutput() throws IOException {
 
-        String jsonOutput = "src/test/resources/expectedJSONOutput.json";
-        BufferedReader reader = new BufferedReader(new FileReader(new File(jsonOutput)));
-        String expectedJSONOutput = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        String expectedJSONOutput = readingFileToString("src/test/resources/expectedJSONOutput.json");
 
         var actualJSONOutput = Differ.generate("src/test/resources/nestedFile1.json",
                 "src/test/resources/nestedFile2.json",
@@ -42,8 +45,7 @@ public class ParserTest {
     @Test
     public void testPlainJSON() throws Exception {
 
-        BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/expectedPlain.txt")));
-        String expectedPlainJSON = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        String expectedPlainJSON = readingFileToString("src/test/resources/expectedPlain.txt");
 
         var actualPlainJSON = Differ.generate("src/test/resources/nestedFile1.json",
                                             "src/test/resources/nestedFile2.json",
@@ -54,8 +56,7 @@ public class ParserTest {
     @Test
     public void testPlainYAML() throws Exception {
 
-        BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/expectedPlain.txt")));
-        String expectedPlainYAML = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        String expectedPlainYAML = readingFileToString("src/test/resources/expectedPlain.txt");
         var actualPlainYAML = Differ.generate("src/test/resources/nestedFile1.json",
                                             "src/test/resources/nestedFile2.json",
                                                     PLAIN_FORMAT);
@@ -65,9 +66,7 @@ public class ParserTest {
     @Test
     public void testNestedFilesJSON() throws Exception {
 
-        String nestedFile = "src/test/resources/expectedNestedFiles.txt";
-        BufferedReader reader = new BufferedReader(new FileReader(new File(nestedFile)));
-        String expectedNestedFilesJSON = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        String expectedNestedFilesJSON = readingFileToString("src/test/resources/expectedNestedFiles.txt");
 
         var actualNestedFilesJSON = Differ.generate("src/test/resources/nestedFile1.json",
                                                     "src/test/resources/nestedFile2.json",
@@ -78,9 +77,7 @@ public class ParserTest {
     @Test
     public void testNestedFilesYAML() throws Exception {
 
-        String nestedFile2 = "src/test/resources/expectedNestedFiles.txt";
-        BufferedReader reader = new BufferedReader(new FileReader(new File(nestedFile2)));
-        String expectedNestedFilesYAML = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        String expectedNestedFilesYAML = readingFileToString("src/test/resources/expectedNestedFiles.txt");
 
         var actualNestedFilesYAML = Differ.generate("src/test/resources/nestedFile1.yml",
                                                     "src/test/resources/nestedFile2.yml",
