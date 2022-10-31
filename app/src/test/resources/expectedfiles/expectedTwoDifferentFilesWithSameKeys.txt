@@ -1,0 +1,10 @@
+{
+  - first_name: Sammy
+  + first_name: Lenny
+  - followers: 987
+  + followers: 876
+    last_name: Shark
+  - location: Ocean
+  - online: true
+  + online: false
+}

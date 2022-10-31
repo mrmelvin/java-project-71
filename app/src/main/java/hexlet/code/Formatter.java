@@ -1,5 +1,6 @@
 package hexlet.code;
 
+import java.io.IOException;
 import java.util.Map;
 import static hexlet.code.formatstyle.FormatterStylish.getDataDefault;
 import static hexlet.code.formatstyle.FormatterPlain.getDataPlain;
@@ -13,7 +14,7 @@ public class Formatter {
     public static final String JSON_FORMAT = "json";
 
 
-    public static String format(Map<String, Object[]> inputData, String currentFormat) {
+    public static String format(Map<String, Object[]> inputData, String currentFormat) throws IOException {
         String diffString = "";
         switch (currentFormat) {
             case DEFAULT_FORMAT:

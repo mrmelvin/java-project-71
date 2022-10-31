@@ -1,0 +1,5 @@
+{
+    capital: Berlin
+    country: Germany
+    currency: euro
+}
