@@ -9,17 +9,24 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 public class Parser {
+
+    public static Map jsonReader(Path filePath) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(new File(filePath.toString()), Map.class);
+    }
+
+    public static Map yamlReader(Path filePath) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
+        return objectMapper.readValue(new File(filePath.toString()), Map.class);
+    }
     public static Map parse(Path fullPath, String formatType) throws IOException {
         Map<String, Object> fileToMap = new HashMap<>();
-        ObjectMapper objectMapper = null;
         switch (formatType) {
             case "json":
-                objectMapper = new ObjectMapper();
-                fileToMap = objectMapper.readValue(new File(fullPath.toString()), Map.class);
+                fileToMap = jsonReader(fullPath);
                 break;
             case "yml":
-                objectMapper = new ObjectMapper(new YAMLFactory());
-                fileToMap = objectMapper.readValue(new File(fullPath.toString()), Map.class);
+                fileToMap = yamlReader(fullPath);
                 break;
             default:
                 System.out.println("Unsupported file format");

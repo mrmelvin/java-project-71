@@ -1,6 +1,6 @@
 package hexlet.code.formatstyle;
 
-class FormatterDefault {
+class SupportFormatter {
 
     public static final int INDEX_FIRST_FILE_AVAILABLE_KEY = 0;
     public static final int INDEX_SECOND_FILE_AVAILABLE_KEY = 1;
