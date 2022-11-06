@@ -14,7 +14,7 @@ public class Formatter {
     public static final String JSON_FORMAT = "json";
 
 
-    public static String format(Map<String, Object[]> inputData, String currentFormat) throws IOException {
+    public static String format(Map<String, Map<String, Object[]>> inputData, String currentFormat) throws IOException {
         String diffString = "";
         switch (currentFormat) {
             case DEFAULT_FORMAT:

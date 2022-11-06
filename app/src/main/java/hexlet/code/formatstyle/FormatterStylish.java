@@ -1,7 +1,6 @@
 package hexlet.code.formatstyle;
 
 import java.util.Map;
-import java.util.Objects;
 import static hexlet.code.formatstyle.SupportFormatter.presentNullToString;
 
 public class FormatterStylish {
@@ -9,37 +8,43 @@ public class FormatterStylish {
     public static final String PREFIX_EQUAL_DATA = "    ";
     public static final String PREFIX_DELETE_DATA = "  - ";
     public static final String PREFIX_ADD_DATA = "  + ";
-    public static String getDataDefault(Map<String, Object[]> inputData) {
+    public static String getDataDefault(Map<String, Map<String, Object[]>> inputData) {
         StringBuilder output = new StringBuilder("{\n");
-        for (var elem: inputData.entrySet()) {
-            if (elem.getValue()[SupportFormatter.INDEX_FIRST_FILE_AVAILABLE_KEY].equals(1)
-                    & elem.getValue()[SupportFormatter.INDEX_SECOND_FILE_AVAILABLE_KEY].equals(1)) {
-                if (Objects.equals(elem.getValue()[SupportFormatter.INDEX_FIRST_FILE_DATA],
-                                   elem.getValue()[SupportFormatter.INDEX_SECOND_FILE_DATA])) {
-                    output.append(PREFIX_EQUAL_DATA + elem.getKey());
-                    output.append(": ");
-                    output.append(presentNullToString(elem.getValue()[2]));
-                    output.append("\n");
-                } else {
-                    output.append(PREFIX_DELETE_DATA + elem.getKey());
-                    output.append(": ");
-                    output.append(presentNullToString(elem.getValue()[2]));
-                    output.append("\n");
-                    output.append(PREFIX_ADD_DATA + elem.getKey());
-                    output.append(": ");
-                    output.append(presentNullToString(elem.getValue()[SupportFormatter.INDEX_SECOND_FILE_DATA]));
-                    output.append("\n");
+
+        for (var firstKey: inputData.entrySet()) {
+            for (var changingElement : firstKey.getValue().entrySet()) {
+                switch (changingElement.getKey()) {
+                    case SupportFormatter.ADDED:
+                        output.append(PREFIX_ADD_DATA + firstKey.getKey());
+                        output.append(": ");
+                        output.append(presentNullToString(changingElement.getValue()[0]));
+                        output.append("\n");
+                        break;
+                    case SupportFormatter.DELETED:
+                        output.append(PREFIX_DELETE_DATA + firstKey.getKey());
+                        output.append(": ");
+                        output.append(presentNullToString(changingElement.getValue()[0]));
+                        output.append("\n");
+                        break;
+                    case SupportFormatter.CHANGED:
+                        output.append(PREFIX_DELETE_DATA + firstKey.getKey());
+                        output.append(": ");
+                        output.append(presentNullToString(changingElement.getValue()[0]));
+                        output.append("\n");
+                        output.append(PREFIX_ADD_DATA + firstKey.getKey());
+                        output.append(": ");
+                        output.append(presentNullToString(changingElement.getValue()[1]));
+                        output.append("\n");
+                        break;
+                    case SupportFormatter.NOCHANGED:
+                        output.append(PREFIX_EQUAL_DATA + firstKey.getKey());
+                        output.append(": ");
+                        output.append(presentNullToString(changingElement.getValue()[0]));
+                        output.append("\n");
+                        break;
+                    default:
+                        continue;
                 }
-            } else if (elem.getValue()[SupportFormatter.INDEX_FIRST_FILE_AVAILABLE_KEY].equals(0)) {
-                output.append(PREFIX_ADD_DATA + elem.getKey());
-                output.append(": ");
-                output.append(presentNullToString(elem.getValue()[SupportFormatter.INDEX_SECOND_FILE_DATA]));
-                output.append("\n");
-            } else {
-                output.append(PREFIX_DELETE_DATA + elem.getKey());
-                output.append(": ");
-                output.append(presentNullToString(elem.getValue()[2]));
-                output.append("\n");
             }
         }
         output.append("}");

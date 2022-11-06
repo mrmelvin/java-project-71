@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 
@@ -21,23 +20,31 @@ public class FormatterPlain {
             return inputData.toString();
         }
     }
-
-
-    public static String getDataPlain(Map<String, Object[]> inputData) {
+    public static String getDataPlain(Map<String, Map<String, Object[]>> inputData) {
         List<String> output = new ArrayList<>();
-        for (var elem: inputData.entrySet()) {
-            if (elem.getValue()[SupportFormatter.INDEX_FIRST_FILE_AVAILABLE_KEY].equals(0)) {
-                output.add("Property " + formattedValuesForPlainOutput(elem.getKey())
-                        + " was added with value: "
-                        + formattedValuesForPlainOutput(elem.getValue()[SupportFormatter.INDEX_SECOND_FILE_DATA]));
-            } else if (elem.getValue()[SupportFormatter.INDEX_SECOND_FILE_AVAILABLE_KEY].equals(0)) {
-                output.add("Property " + formattedValuesForPlainOutput(elem.getKey()) + " was removed");
-            } else if (!Objects.equals(elem.getValue()[SupportFormatter.INDEX_FIRST_FILE_DATA],
-                    elem.getValue()[SupportFormatter.INDEX_SECOND_FILE_DATA])) {
-                output.add("Property " + formattedValuesForPlainOutput(elem.getKey()) + " was updated. From "
-                        + formattedValuesForPlainOutput(elem.getValue()[SupportFormatter.INDEX_FIRST_FILE_DATA])
-                        + " to "
-                        + formattedValuesForPlainOutput(elem.getValue()[SupportFormatter.INDEX_SECOND_FILE_DATA]));
+
+        for (var outerElem: inputData.entrySet()) {
+            for (var innerElem : outerElem.getValue().entrySet()) {
+                switch (innerElem.getKey()) {
+                    case SupportFormatter.ADDED:
+                        output.add("Property "
+                                + formattedValuesForPlainOutput(outerElem.getKey())
+                                + " was added with value: "
+                                + formattedValuesForPlainOutput(innerElem.getValue()[0]));
+                        break;
+                    case SupportFormatter.DELETED:
+                        output.add("Property " + formattedValuesForPlainOutput(outerElem.getKey()) + " was removed");
+                        break;
+                    case SupportFormatter.CHANGED:
+                        output.add("Property " + formattedValuesForPlainOutput(outerElem.getKey())
+                                + " was updated. From "
+                                + formattedValuesForPlainOutput(innerElem.getValue()[0])
+                                + " to "
+                                + formattedValuesForPlainOutput(innerElem.getValue()[1]));
+                        break;
+                    default:
+                        continue;
+                }
             }
         }
         return output.stream().collect(Collectors.joining("\n"));
