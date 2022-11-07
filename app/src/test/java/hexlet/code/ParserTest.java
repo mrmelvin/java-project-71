@@ -18,7 +18,6 @@ public class ParserTest {
     public static final String JSON_OUTPUT = "src/test/resources/expectedfiles/expectedJSONOutput.json";
     public static final String SIMPLE_JSON_OUTPUT = "src/test/resources/expectedfiles/expectedSimpleJSONOutput.json";
     public static final String PLAIN = "src/test/resources/expectedfiles/expectedPlain.txt";
-
     public static final String NESTED_FILES = "src/test/resources/expectedfiles/expectedNestedFiles.txt";
     public static final String TWO_IDENTICAL_FILES = "src/test/resources/expectedfiles/expectedTwoIdenticalFiles.txt";
     public static final String TWO_DIFFERENT_FILES_WITH_SAME_KEYS =

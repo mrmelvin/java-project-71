@@ -1,1 +1,1 @@
-{"added":{},"deleted":{"location":"Ocean"},"changed":{"first_name":{"past":"Sammy","new":"Lenny"},"followers":{"past":"987","new":"876"},"online":{"past":"true","new":"false"}}}
+{"first_name":{"changed":["Sammy","Lenny"]},"followers":{"changed":[987,876]},"last_name":{"noChanged":["Shark"]},"location":{"deleted":["Ocean"]},"online":{"changed":[true,false]}}
