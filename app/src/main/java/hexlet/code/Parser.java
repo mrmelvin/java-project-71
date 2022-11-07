@@ -29,7 +29,7 @@ public class Parser {
                 fileToMap = yamlReader(content);
                 break;
             default:
-                System.out.println("Unsupported file format");
+                System.out.println("Unsupported content type");
                 break;
         }
         return fileToMap;
