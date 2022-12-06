@@ -1,14 +1,12 @@
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/mrmelvin/java-project-71/workflows/hexlet-check/badge.svg)](https://github.com/mrmelvin/java-project-71/actions)
-
 ![example workflow](https://github.com/mrmelvin/java-project-71/actions/workflows/build-app.yml/badge.svg)
-
 [![Maintainability](https://api.codeclimate.com/v1/badges/956bc5d98d1677aaa67d/maintainability)](https://codeclimate.com/github/mrmelvin/java-project-71/maintainability)
-
 [![Test Coverage](https://api.codeclimate.com/v1/badges/956bc5d98d1677aaa67d/test_coverage)](https://codeclimate.com/github/mrmelvin/java-project-71/test_coverage)
 
 
-Вычислитель отличий – утилита, определяющая разницу между двумя структурами данных, представленными в виде двух файлов.
+### Вычислитель отличий 
+Утилита, определяющая разницу между двумя структурами данных, представленными в виде двух файлов.
 
 Возможности утилиты:
 
@@ -17,35 +15,39 @@
 
 Ниже описаны основные команды:
 
-## Start
+### Start
 ```shell
 make
 ```
 
-## Setup
+### Setup
 ```shell
 make build
 ```
 
-## Install
+### Install
 ```shell
 make install
 ```
 
-## Run tests
+### Run tests
 ```shell
 make test
 ```
 
-## Run checkstyle
+### Run checkstyle
 ```shell
 make lint
 ```
 
-## Create report code coverage
+### Create report code coverage
 ```shell
 make report
 ```
 
-## Example of using app
-[![asciicast](https://asciinema.org/a/1HzKN5ggf52BjSZyiC88JLnrs.svg)](https://asciinema.org/a/1HzKN5ggf52BjSZyiC88JLnrs)
+### Example of using app
+#### Simple output
+[![asciicast](https://asciinema.org/a/tJBuBh5d9oJp4AqOo7hJqn92Z.svg)](https://asciinema.org/a/tJBuBh5d9oJp4AqOo7hJqn92Z)
+
+#### All output formats
+[![asciicast](https://asciinema.org/a/Z6tddC5KIeqS2qPCLkZRkpPBv.svg)](https://asciinema.org/a/Z6tddC5KIeqS2qPCLkZRkpPBv)
